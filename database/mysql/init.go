@@ -24,6 +24,8 @@ func (dbInstance *MysqlDatabase) Init() {
 
 		dbInstance.db = _db
 		dbInstance.db.AutoMigrate(models.Discount{})
+		dbInstance.db.AutoMigrate(models.User{})
+		dbInstance.db.AutoMigrate(models.DiscountUsage{})
 		break
 	}
 

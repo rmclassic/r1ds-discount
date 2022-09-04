@@ -21,6 +21,8 @@ type Route struct {
 
 var httpRoutes []Route = []Route{
 	{"/discount/submit", http.MethodPost, []martini.Handler{handlers.SubmitDiscount}, models.SubmitDiscountParam{}},
+	{"/discount", http.MethodPut, []martini.Handler{handlers.AddDiscount}, models.AddDiscountParam{}},
+	{"/discount/:id/report", http.MethodPut, []martini.Handler{}, nil},
 }
 
 func Init() {
@@ -39,5 +41,5 @@ func Init() {
 	}
 
 	db.Init()
-	c.Run()
+	c.RunOnAddr("0.0.0.0:3001")
 }
