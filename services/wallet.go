@@ -5,6 +5,7 @@ import (
 	"discount/util"
 	"fmt"
 	"net/http"
+	"os"
 )
 
 func ChargeUserWallet(userId int, amount float64) error {
@@ -12,6 +13,6 @@ func ChargeUserWallet(userId int, amount float64) error {
 		Amount: amount,
 	}
 
-	url := fmt.Sprintf("http://localhost:3000/user/%d/wallet/charge", userId)
+	url := fmt.Sprintf("%s/user/%d/wallet/charge", os.Getenv("WALLET_ENDPOINT"), userId)
 	return util.HttpSendRequest(url, http.MethodPost, params, nil, nil)
 }
