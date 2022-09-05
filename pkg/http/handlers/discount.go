@@ -10,7 +10,13 @@ import (
 )
 
 func SubmitDiscount(req *http.Request, param models.SubmitDiscountParam, db database.IDatabase, r render.Render) {
-	services.SubmitDiscount(db, param.DiscountCode, param.PhoneNumber)
+	err := services.SubmitDiscount(db, param.DiscountCode, param.PhoneNumber)
+	if err != nil {
+		r.Status(http.StatusBadRequest)
+		return
+	}
+
+	r.Status(http.StatusOK)
 }
 
 func AddDiscount(req *http.Request, param models.AddDiscountParam, db database.IDatabase, r render.Render) {

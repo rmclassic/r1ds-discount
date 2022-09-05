@@ -3,6 +3,7 @@ package services
 import (
 	"discount/database"
 	"discount/models"
+	"errors"
 )
 
 func SubmitDiscount(db database.IDatabase, discountCode string, phoneNumber string) error {
@@ -19,6 +20,16 @@ func SubmitDiscount(db database.IDatabase, discountCode string, phoneNumber stri
 		return err
 	}
 
+	discountUsages := []models.DiscountUsage{}
+	db.DiscountUsageGet(models.DiscountUsage{
+		DiscountID: discount.ID,
+		UserID:     wallet.UserID,
+	}, &discountUsages)
+
+	if len(discountUsages) != 0 {
+		return errors.New("you've used this discount before")
+	}
+
 	wallet.Balance += discount.Amount
 
 	err = ChargeUserWallet(wallet.UserID, discount.Amount)
@@ -26,7 +37,12 @@ func SubmitDiscount(db database.IDatabase, discountCode string, phoneNumber stri
 		return err
 	}
 
+	if discount.QuantityLeft == 0 {
+		return errors.New("no more discounts")
+	}
+
 	discount.QuantityLeft--
+
 	err = db.DiscountUpdate(&discount)
 	if err != nil {
 		return err

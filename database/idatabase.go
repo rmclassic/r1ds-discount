@@ -10,7 +10,7 @@ type IDatabase interface {
 	DiscountGet(*models.Discount) error
 	DiscountUpdate(*models.Discount) error
 
-	DiscountUsageGet(int, *[]models.DiscountUsage) error
+	DiscountUsageGet(models.DiscountUsage, *[]models.DiscountUsage) error
 	DiscountUsageAdd(*models.DiscountUsage) error
 
 	UserAdd(*models.User) error

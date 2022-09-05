@@ -22,7 +22,7 @@ type Route struct {
 var httpRoutes []Route = []Route{
 	{"/discount/submit", http.MethodPost, []martini.Handler{handlers.SubmitDiscount}, models.SubmitDiscountParam{}},
 	{"/discount", http.MethodPut, []martini.Handler{handlers.AddDiscount}, models.AddDiscountParam{}},
-	{"/discount/:id/report", http.MethodPut, []martini.Handler{}, nil},
+	{"/discount/:id/report", http.MethodGet, []martini.Handler{handlers.GetDiscoutUsageReport}, nil},
 }
 
 func Init() {
