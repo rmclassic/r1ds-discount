@@ -41,5 +41,5 @@ func Init() {
 	}
 
 	db.Init()
-	c.RunOnAddr("0.0.0.0:3001")
+	c.Run()
 }
